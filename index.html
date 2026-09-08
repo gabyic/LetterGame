@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0f172a">
+<title>Letter Quest 字母闯关</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔤</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div id="toasts"></div>
+
+<!-- Player select -->
+<section class="screen" id="screen-players">
+  <h1 class="center">🔤 Letter Quest</h1>
+  <p class="center sub">字母闯关 · Who is playing? 谁来玩？</p>
+  <div class="players" id="playerList"></div>
+</section>
+
+<!-- Home -->
+<section class="screen" id="screen-home">
+  <div class="topbar">
+    <button class="btn small gray" data-go="players">👤 Switch</button>
+    <span class="spacer"></span>
+    <span class="pill coins" id="coinPill">🪙 <span class="coinsVal">0</span></span>
+    <span class="pill gems">💎 <span class="gemsVal">0</span></span>
+    <button class="btn small gray" id="parentBtn">⚙️</button>
+  </div>
+  <div class="card home-hero" id="homeHero"></div>
+  <div class="quest" id="dailyQuest"></div>
+  <div class="menu-grid">
+    <button class="btn green" data-go="map">🗺️ Play<small>字母闯关</small></button>
+    <button class="btn yellow" data-go="shop">🛍️ Shop<small>商店</small></button>
+    <button class="btn purple" data-go="badges">🏆 Badges<small>徽章 & 排行榜</small></button>
+    <button class="btn" data-go="chart">🔤 ABC Chart<small>字母表</small></button>
+    <button class="btn red" data-go="rush" id="rushBtn" style="grid-column:1/-1">⚡ Letter Rush<small></small></button>
+  </div>
+  <div class="center mt">
+    <span class="sub">Accent 口音：</span>
+    <span class="accent-toggle"><button data-acc="UK">🇬🇧 UK 英式</button><button data-acc="US">🇺🇸 US 美式</button></span>
+  </div>
+</section>
+
+<!-- Map -->
+<section class="screen" id="screen-map">
+  <div class="topbar">
+    <button class="btn small gray" data-go="home">🏠 Home</button>
+    <span class="spacer"></span>
+    <span class="pill coins">🪙 <span class="coinsVal">0</span></span>
+    <span class="pill gems">💎 <span class="gemsVal">0</span></span>
+  </div>
+  <h2>🗺️ Alphabet Islands · 字母群岛</h2>
+  <p class="sub">通关一个字母解锁下一个，打败 Boss 👾 打开宝箱 🎁 解锁新岛屿！</p>
+  <div id="worlds"></div>
+</section>
+
+<!-- Stage -->
+<section class="screen" id="screen-stage">
+  <div class="topbar">
+    <button class="btn small gray" id="quitStage">✕</button>
+    <b id="stageTitle"></b>
+    <span class="spacer"></span>
+    <span class="pill coins"><span id="coinPill2">🪙</span> <span class="coinsVal">0</span></span>
+  </div>
+  <div class="progress" id="progress"></div>
+  <div id="taskArea"></div>
+</section>
+
+<!-- Result -->
+<section class="screen" id="screen-result">
+  <div id="resultBox"></div>
+</section>
+
+<!-- Rush -->
+<section class="screen" id="screen-rush">
+  <div class="topbar"><button class="btn small gray" id="rushQuit">✕</button><span class="spacer"></span><span class="pill">Score <b id="rushScore">0</b></span></div>
+  <div class="timer">⏱️ <span id="rushTimer">30</span></div>
+  <div id="rushArea"></div>
+</section>
+
+<!-- Shop -->
+<section class="screen" id="screen-shop">
+  <div class="topbar">
+    <button class="btn small gray" data-go="home">🏠 Home</button>
+    <span class="spacer"></span>
+    <span class="pill coins">🪙 <span class="coinsVal">0</span></span>
+    <span class="pill gems">💎 <span class="gemsVal">0</span></span>
+  </div>
+  <h2>🛍️ Avatar Shop · 商店</h2>
+  <div class="center" id="shopAvatar"></div>
+  <div class="shop-grid" id="shopGrid"></div>
+</section>
+
+<!-- Badges -->
+<section class="screen" id="screen-badges">
+  <div class="topbar"><button class="btn small gray" data-go="home">🏠 Home</button></div>
+  <h2>🏆 Badges · 徽章</h2>
+  <p class="sub">每个徽章奖励 1 💎</p>
+  <div class="badge-grid" id="badgeGrid"></div>
+  <h2 class="mt">🥇 Leaderboard · 排行榜</h2>
+  <div class="lb" id="leaderboard"></div>
+</section>
+
+<!-- Chart -->
+<section class="screen" id="screen-chart">
+  <div class="topbar"><button class="btn small gray" data-go="home">🏠 Home</button><span class="spacer"></span>
+    <span class="accent-toggle"><button data-acc="UK">🇬🇧</button><button data-acc="US">🇺🇸</button></span></div>
+  <h2>🔤 ABC Chart · 字母表</h2>
+  <p class="sub">点一点，听字母和单词</p>
+  <div class="choices" id="chartGrid"></div>
+</section>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
