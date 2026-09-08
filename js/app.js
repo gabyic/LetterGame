@@ -277,7 +277,8 @@ function startBoss(w) {
 function renderProgress() {
   const box = $('#progress'); box.innerHTML = '';
   S.tasks.forEach((t, i) => box.appendChild(el(`<div class="${i < S.i ? 'done' : i === S.i ? 'cur' : ''}"></div>`)));
-  $('#stageTitle').textContent = S.boss ? `👾 ${S.w.name} BOSS` : `${S.L} ${S.L.toLowerCase()} · ${S.w.emoji} ${S.w.name}`;
+  const t = S.tasks[S.i], reveal = t && (t.t === 'meet' || t.t === 'trace');
+  $('#stageTitle').textContent = S.boss ? `👾 ${S.w.name} BOSS` : `${reveal ? `${S.L} ${S.L.toLowerCase()}` : '❓'} · ${S.w.emoji} ${S.w.name}`;
 }
 function runTask() {
   if (S.i >= S.tasks.length) return finishStage();
@@ -335,11 +336,13 @@ function taskFind(t, area) {
   const opts = shuffle([target, ...pick(pool, 5)].map(x => (x === target ? x : (lower ? x.toLowerCase() : x))));
   const isMatch = t.t === 'match';
   const shown = isMatch ? (lower ? L : L.toLowerCase()) : null;
-  area.innerHTML = `<div class="prompt">${isMatch ? `Find the ${lower ? 'small' : 'big'} letter for <span style="font-size:44px;color:var(--yellow)">${shown}</span>` : `Find the ${lower ? 'small' : 'big'} letter <span style="color:var(--yellow)">${L}</span>`}
-    <span class="cn">${isMatch ? `找到 ${shown} 的${lower ? '小写' : '大写'}` : `找到${lower ? '小写' : '大写'}字母 ${L}`}</span></div>
+  const d = LETTER_MAP[L];
+  area.innerHTML = `<div class="prompt">${isMatch ? `Find the ${lower ? 'small' : 'big'} letter for <span style="font-size:44px;color:var(--yellow)">${shown}</span>` : lower ? `Find the small letter for <span style="font-size:44px;color:var(--yellow)">${L}</span>` : `Listen! Find the big letter for <span style="font-size:44px">${d.emoji}</span> ${d.word}`}
+    <span class="cn">${isMatch ? `找到 ${shown} 的${lower ? '小写' : '大写'}` : lower ? `找到 ${L} 的小写` : `听一听，找到 ${d.word}（${d.cn}）开头的大写字母`}</span></div>
     <div class="row" style="justify-content:center"><button class="btn small" id="sayL">🔊 Listen</button></div>
     <div class="choices"></div><div class="feedback" id="feedback"></div>`;
   $('#sayL').onclick = () => Speech.letterName(L);
+  if (!isMatch && !lower) setTimeout(() => Speech.letterName(L), 300);
   const box = area.querySelector('.choices');
   opts.forEach(o => { const c = el(`<div class="choice" data-ok="${o === target ? 1 : 0}">${o}</div>`); c.onclick = () => markAnswer(c, o === target, () => nextTask()); box.appendChild(c); });
   void conf;
@@ -497,7 +500,8 @@ function startRush() {
     const L = rnd(poolL), mode = rnd(['see', 'hear', 'lower']);
     const opts = shuffle([L, ...pick(poolL.filter(x => x !== L), Math.min(3, poolL.length - 1))]);
     cur = L;
-    area.innerHTML = `<div class="prompt">${mode === 'see' ? `Tap <span style="color:var(--yellow)">${L}</span>` : mode === 'lower' ? `Tap small <span style="color:var(--yellow)">${L}</span>` : 'Tap what you hear 🔊'}</div><div class="choices"></div>`;
+    const dd = LETTER_MAP[L];
+    area.innerHTML = `<div class="prompt">${mode === 'see' ? `Tap the letter for <span style="font-size:40px">${dd.emoji}</span> ${dd.word}` : mode === 'lower' ? `Tap small <span style="color:var(--yellow)">${L}</span>` : 'Tap what you hear 🔊'}</div><div class="choices"></div>`;
     if (mode === 'hear') Speech.letterName(L);
     const box = area.querySelector('.choices');
     opts.forEach(o => { const c = el(`<div class="choice">${mode === 'lower' ? o.toLowerCase() : mode === 'hear' ? o + o.toLowerCase() : o}</div>`);
