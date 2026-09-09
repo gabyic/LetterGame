@@ -26,7 +26,7 @@ LetterData.Letters = {
 	{ L = "U", word = "umbrella",   emoji = "☂️" },
 	{ L = "V", word = "violin",     emoji = "🎻" },
 	{ L = "W", word = "watermelon", emoji = "🍉" },
-	{ L = "X", word = "x-ray",      emoji = "🩻" },
+	{ L = "X", word = "fox",        emoji = "🦊" },
 	{ L = "Y", word = "yo-yo",      emoji = "🪀" },
 	{ L = "Z", word = "zebra",      emoji = "🦓" },
 }

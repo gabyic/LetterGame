@@ -24,7 +24,7 @@ const LETTERS = [
   { L: 'U', word: 'umbrella',   emoji: '☂️', nameUK: '/juː/', nameUS: '/juː/', sound: '/ʌ/',  cn: '雨伞' },
   { L: 'V', word: 'violin',     emoji: '🎻', nameUK: '/viː/', nameUS: '/viː/', sound: '/v/',  cn: '小提琴' },
   { L: 'W', word: 'watermelon', emoji: '🍉', nameUK: '/ˈdʌbljuː/', nameUS: '/ˈdʌbəljuː/', sound: '/w/', cn: '西瓜' },
-  { L: 'X', word: 'x-ray',      emoji: '🩻', nameUK: '/eks/', nameUS: '/eks/', sound: '/ks/', cn: 'X光' },
+  { L: 'X', word: 'fox',        emoji: '🦊', nameUK: '/eks/', nameUS: '/eks/', sound: '/ks/', cn: '狐狸', ends: true },
   { L: 'Y', word: 'yo-yo',      emoji: '🪀', nameUK: '/waɪ/', nameUS: '/waɪ/', sound: '/j/',  cn: '悠悠球' },
   { L: 'Z', word: 'zebra',      emoji: '🦓', nameUK: '/zed/', nameUS: '/ziː/', sound: '/z/',  cn: '斑马', nameWordUK: 'zed', nameWordUS: 'zee' },
 ];

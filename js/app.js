@@ -337,8 +337,8 @@ function taskFind(t, area) {
   const isMatch = t.t === 'match';
   const shown = isMatch ? (lower ? L : L.toLowerCase()) : null;
   const d = LETTER_MAP[L];
-  area.innerHTML = `<div class="prompt">${isMatch ? `Find the ${lower ? 'small' : 'big'} letter for <span style="font-size:44px;color:var(--yellow)">${shown}</span>` : lower ? `Find the small letter for <span style="font-size:44px;color:var(--yellow)">${L}</span>` : `Listen! Find the big letter for <span style="font-size:44px">${d.emoji}</span> ${d.word}`}
-    <span class="cn">${isMatch ? `找到 ${shown} 的${lower ? '小写' : '大写'}` : lower ? `找到 ${L} 的小写` : `听一听，找到 ${d.word}（${d.cn}）开头的大写字母`}</span></div>
+  area.innerHTML = `<div class="prompt">${isMatch ? `Find the ${lower ? 'small' : 'big'} letter for <span style="font-size:44px;color:var(--yellow)">${shown}</span>` : lower ? `Find the small letter for <span style="font-size:44px;color:var(--yellow)">${L}</span>` : `Listen! Find the big letter for <span style="font-size:44px">${d.emoji}</span>`}
+    <span class="cn">${isMatch ? `找到 ${shown} 的${lower ? '小写' : '大写'}` : lower ? `找到 ${L} 的小写` : `听一听，找到「${d.cn}」${d.ends ? '结尾' : '开头'}的大写字母`}</span></div>
     <div class="row" style="justify-content:center"><button class="btn small" id="sayL">🔊 Listen</button></div>
     <div class="choices"></div><div class="feedback" id="feedback"></div>`;
   $('#sayL').onclick = () => Speech.letterName(L);
@@ -368,12 +368,13 @@ function taskPhonics(t, area) {
   const L = t.target, d = LETTER_MAP[L];
   const others = pick(LETTERS.filter(x => x.L !== L), 2);
   const opts = shuffle([d, ...others]);
-  area.innerHTML = `<div class="prompt">Which one starts with <span style="color:var(--yellow)">${L} ${L.toLowerCase()}</span>?<span class="cn">哪一个是 ${L} 开头的？ (${d.sound})</span></div>
+  const ends = !!d.ends;
+  area.innerHTML = `<div class="prompt">Which one ${ends ? 'ends' : 'starts'} with <span style="color:var(--yellow)">${L} ${L.toLowerCase()}</span>?<span class="cn">哪一个是 ${L} ${ends ? '结尾' : '开头'}的？ (${d.sound}) 点图片可以听发音</span></div>
     <div class="choices"></div><div class="feedback" id="feedback"></div>`;
   const box = area.querySelector('.choices');
   opts.forEach(o => {
-    const c = el(`<div class="choice pic" data-ok="${o.L === L ? 1 : 0}">${o.emoji}<span>${o.word}</span></div>`);
-    c.onclick = () => { Speech.word(o.L); markAnswer(c, o.L === L, () => nextTask()); };
+    const c = el(`<div class="choice pic" data-ok="${o.L === L ? 1 : 0}">${o.emoji}<span>${o.cn}</span></div>`);
+    c.onclick = () => { Speech.word(o.L); markAnswer(c, o.L === L, () => { box.querySelectorAll('.choice').forEach((x, i) => x.querySelector('span').textContent = opts[i].word); nextTask(); }); };
     box.appendChild(c);
   });
 }
@@ -501,7 +502,7 @@ function startRush() {
     const opts = shuffle([L, ...pick(poolL.filter(x => x !== L), Math.min(3, poolL.length - 1))]);
     cur = L;
     const dd = LETTER_MAP[L];
-    area.innerHTML = `<div class="prompt">${mode === 'see' ? `Tap the letter for <span style="font-size:40px">${dd.emoji}</span> ${dd.word}` : mode === 'lower' ? `Tap small <span style="color:var(--yellow)">${L}</span>` : 'Tap what you hear 🔊'}</div><div class="choices"></div>`;
+    area.innerHTML = `<div class="prompt">${mode === 'see' ? `Tap the letter for <span style="font-size:40px">${dd.emoji}</span> <small class="sub">${dd.cn}</small>` : mode === 'lower' ? `Tap small <span style="color:var(--yellow)">${L}</span>` : 'Tap what you hear 🔊'}</div><div class="choices"></div>`;
     if (mode === 'hear') Speech.letterName(L);
     const box = area.querySelector('.choices');
     opts.forEach(o => { const c = el(`<div class="choice">${mode === 'lower' ? o.toLowerCase() : mode === 'hear' ? o + o.toLowerCase() : o}</div>`);
@@ -555,7 +556,7 @@ function renderBadges() {
 // ---------- Alphabet chart (review all letters with both accents) ----------
 function renderChart() {
   const box = $('#chartGrid'); box.innerHTML = '';
-  LETTERS.forEach(d => { const c = el(`<div class="choice pic" style="height:120px"><div><b>${d.L}</b>${d.L.toLowerCase()} ${d.emoji}</div><span>${d.word}</span></div>`); c.onclick = () => Speech.letterIntro(d.L); box.appendChild(c); });
+  LETTERS.forEach(d => { const c = el(`<div class="choice pic" style="height:120px"><div><b>${d.L}</b>${d.L.toLowerCase()} ${d.emoji}</div><span>${d.word}${d.ends ? ' (ends with x)' : ''}</span></div>`); c.onclick = () => Speech.letterIntro(d.L); box.appendChild(c); });
   show('screen-chart');
 }
 
