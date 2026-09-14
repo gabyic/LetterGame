@@ -3,7 +3,9 @@
 给刚开始学英语的小朋友设计的 **Roblox 风格字母闯关游戏**。
 纯 HTML/JS，无需安装，手机 / iPad / 电脑浏览器打开即玩。
 
-**在线玩：** https://chaoyi-ai.github.io/LetterGame/
+**在线玩：** https://gabyic.github.io/LetterGame/
+
+> Fork 自 [chaoyi-ai/LetterGame](https://github.com/chaoyi-ai/LetterGame)，后续开发在这个 fork 里继续。
 
 ## 解决什么问题
 
@@ -41,7 +43,7 @@
 - 📜 **每日任务**：每天随机一个（完成 3 关 / 描写 4 个字母 / 答对 15 题）
 - 🔥 **连续打卡**：每天玩就累计天数
 - ⚡ **Letter Rush**：30 秒限时抢答小游戏（打败第 1 个 Boss 解锁）
-- 🥇 **排行榜**：哥哥妹妹各自档案，同一设备比拼 XP、星星、徽章
+- 🥇 **排行榜**：每人各自档案，同一设备最多 4 人比拼 XP、星星、徽章
 - ⚙️ **家长面板**：查看答题统计，可手动发 50 金币奖励
 
 ## 本地运行
