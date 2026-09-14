@@ -32,11 +32,11 @@ const LETTER_MAP = Object.fromEntries(LETTERS.map(l => [l.L, l]));
 
 // ===== Worlds (Roblox-style islands) =====
 const WORLDS = [
-  { id: 0, name: 'Apple Island',   cn: '苹果岛',   emoji: '🏝️', letters: ['A','B','C','D','E'],     color: '#4ade80', bg: 'linear-gradient(180deg,#bbf7d0,#4ade80)' },
-  { id: 1, name: 'Fish Lagoon',    cn: '小鱼湾',   emoji: '🌊', letters: ['F','G','H','I','J'],     color: '#38bdf8', bg: 'linear-gradient(180deg,#bae6fd,#38bdf8)' },
-  { id: 2, name: 'Lion Jungle',    cn: '狮子丛林', emoji: '🌴', letters: ['K','L','M','N','O'],     color: '#fbbf24', bg: 'linear-gradient(180deg,#fde68a,#fbbf24)' },
-  { id: 3, name: 'Pig Volcano',    cn: '小猪火山', emoji: '🌋', letters: ['P','Q','R','S','T'],     color: '#f87171', bg: 'linear-gradient(180deg,#fecaca,#f87171)' },
-  { id: 4, name: 'Zebra Galaxy',   cn: '斑马星系', emoji: '🚀', letters: ['U','V','W','X','Y','Z'], color: '#a78bfa', bg: 'linear-gradient(180deg,#ddd6fe,#a78bfa)' },
+  { id: 0, name: 'Apple Island',   cn: '苹果岛',   emoji: '🏝️', letters: ['A','B','C','D','E'],     color: '#2fbf88', bg: 'linear-gradient(180deg,#a9ecd2,#2fbf88)' },
+  { id: 1, name: 'Fish Lagoon',    cn: '小鱼湾',   emoji: '🌊', letters: ['F','G','H','I','J'],     color: '#4c8dff', bg: 'linear-gradient(180deg,#b9d3ff,#4c8dff)' },
+  { id: 2, name: 'Lion Jungle',    cn: '狮子丛林', emoji: '🌴', letters: ['K','L','M','N','O'],     color: '#f2960a', bg: 'linear-gradient(180deg,#ffd899,#f2960a)' },
+  { id: 3, name: 'Pig Volcano',    cn: '小猪火山', emoji: '🌋', letters: ['P','Q','R','S','T'],     color: '#ff6b6b', bg: 'linear-gradient(180deg,#ffc2c2,#ff6b6b)' },
+  { id: 4, name: 'Zebra Galaxy',   cn: '斑马星系', emoji: '🚀', letters: ['U','V','W','X','Y','Z'], color: '#8b5cf6', bg: 'linear-gradient(180deg,#d5c6ff,#8b5cf6)' },
 ];
 
 // ===== Stroke data for handwriting (0..100 box; cap top=10, x-height=45, baseline=80, descender=100) =====

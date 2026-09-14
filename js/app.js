@@ -14,7 +14,7 @@ function today() { return new Date().toISOString().slice(0, 10); }
 function newPlayer(name, skin, shirt) {
   return {
     id: Date.now().toString(36), name, created: today(),
-    avatar: { skin, shirt, pants: '#22c55e', hat: '', pet: '' },
+    avatar: { skin, shirt, hat: '', pet: '' },
     coins: 0, gems: 0, xp: 0, stars: {}, bosses: [], items: [], badges: [],
     streak: { last: '', count: 0 },
     daily: { date: '', questId: '', progress: { stages: 0, traced: 0, correct: 0 }, claimed: false },
@@ -104,7 +104,7 @@ const SFX = {
 function confetti(n = 120) {
   const cv = $('#confetti'), ctx = cv.getContext('2d');
   cv.width = innerWidth; cv.height = innerHeight;
-  const cols = ['#facc15', '#22c55e', '#3b82f6', '#ef4444', '#a855f7', '#f97316', '#fff'];
+  const cols = ['#ffc53d', '#2fbf88', '#4c8dff', '#ff6b6b', '#8b5cf6', '#f2960a', '#fff'];
   const ps = Array.from({ length: n }, () => ({ x: Math.random() * cv.width, y: -20 - Math.random() * 200, vx: (Math.random() - .5) * 4, vy: 2 + Math.random() * 4, s: 6 + Math.random() * 8, c: rnd(cols), r: Math.random() * Math.PI, vr: (Math.random() - .5) * .3 }));
   let t = 0;
   (function frame() {
@@ -118,13 +118,15 @@ function coinFly(x, y, n = 3) { for (let i = 0; i < n; i++) { const c = el('<div
 
 // ---------- Avatar ----------
 function avatarHTML(av, cls = '') {
-  const shirt = av.shirt.startsWith('linear') ? `background:${av.shirt}` : `--shirt:${av.shirt}`;
   const hat = av.hat ? (SHOP.find(i => i.id === av.hat) || {}).emoji || '' : '';
   const pet = av.pet ? (SHOP.find(i => i.id === av.pet) || {}).emoji || '' : '';
-  return `<div class="avatar ${cls}" style="--skin:${av.skin};--pants:${av.pants}">
+  return `<div class="avatar ${cls}">
     ${hat ? `<div class="hat">${hat}</div>` : ''}
-    <div class="head"></div><div class="arm l"></div><div class="arm r"></div>
-    <div class="torso" style="${shirt}"></div><div class="leg l"></div><div class="leg r"></div>
+    <div class="egg-body" style="background:${av.skin}">
+      <span class="eye l"></span><span class="eye r"></span>
+      <span class="cheek l"></span><span class="cheek r"></span>
+      <div class="belly" style="background:${av.shirt}"></div>
+    </div>
     ${pet ? `<div class="pet">${pet}</div>` : ''}</div>`;
 }
 
@@ -188,18 +190,18 @@ function renderPlayers() {
   show('screen-players');
 }
 function openCreate() {
-  let skin = AVATAR_SKINS[0], shirt = '#3b82f6';
-  const shirts = ['#3b82f6', '#ef4444', '#f472b6', '#22c55e', '#a855f7', '#f97316'];
+  let skin = AVATAR_SKINS[0], shirt = '#4c8dff';
+  const shirts = ['#4c8dff', '#ff6b6b', '#f472b6', '#2fbf88', '#8b5cf6', '#f2960a'];
   const d = el(`<div class="dialog-bg"><div class="dialog">
     <h2>Create Player · 创建玩家</h2>
-    <div id="prevAv">${avatarHTML({ skin, shirt, pants: '#22c55e' })}</div>
+    <div id="prevAv">${avatarHTML({ skin, shirt })}</div>
     <input type="text" id="newName" maxlength="12" placeholder="Name 名字">
     <p class="sub">Skin 皮肤</p><div class="swatches" id="skinSw"></div>
     <p class="sub">Shirt 衣服</p><div class="swatches" id="shirtSw"></div>
     <div class="row mt" style="justify-content:center"><button class="btn gray" id="cancelC">Cancel</button><button class="btn green" id="okC">Go! 开始</button></div>
   </div></div>`);
   document.body.appendChild(d);
-  const redraw = () => { d.querySelector('#prevAv').innerHTML = avatarHTML({ skin, shirt, pants: '#22c55e' }); };
+  const redraw = () => { d.querySelector('#prevAv').innerHTML = avatarHTML({ skin, shirt }); };
   const mk = (list, cur, setter, box) => { box.innerHTML = ''; list.forEach(c => { const s = el(`<div style="background:${c}" class="${c === cur ? 'on' : ''}"></div>`); s.onclick = () => { setter(c); mk(list, c, setter, box); redraw(); }; box.appendChild(s); }); };
   mk(AVATAR_SKINS, skin, v => skin = v, d.querySelector('#skinSw'));
   mk(shirts, shirt, v => shirt = v, d.querySelector('#shirtSw'));
@@ -395,19 +397,19 @@ function taskTrace(t, area) {
   function base() {
     ctx.clearRect(0, 0, sz, sz); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, sz, sz);
     // guide lines
-    ctx.lineWidth = 2; [10, 45, 80].forEach((y, i) => { ctx.strokeStyle = i === 2 ? '#94a3b8' : '#e2e8f0'; ctx.setLineDash(i === 1 ? [6, 6] : []); ctx.beginPath(); ctx.moveTo(0, y * sc); ctx.lineTo(sz, y * sc); ctx.stroke(); }); ctx.setLineDash([]);
+    ctx.lineWidth = 2; [10, 45, 80].forEach((y, i) => { ctx.strokeStyle = i === 2 ? '#8a84ab' : '#eaf0fb'; ctx.setLineDash(i === 1 ? [6, 6] : []); ctx.beginPath(); ctx.moveTo(0, y * sc); ctx.lineTo(sz, y * sc); ctx.stroke(); }); ctx.setLineDash([]);
     // ghost letter
-    ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#dbeafe'; ctx.lineWidth = 26 * sc / 3.2;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#e3ddff'; ctx.lineWidth = 26 * sc / 3.2;
     strokes.forEach(s => poly(s));
-    ctx.strokeStyle = '#93c5fd'; ctx.lineWidth = 3; ctx.setLineDash([8, 6]); strokes.forEach(s => poly(s)); ctx.setLineDash([]);
+    ctx.strokeStyle = '#b7a6ff'; ctx.lineWidth = 3; ctx.setLineDash([8, 6]); strokes.forEach(s => poly(s)); ctx.setLineDash([]);
     // numbered start dots + arrows
     strokes.forEach((s, i) => {
-      const [x, y] = s[0]; ctx.fillStyle = '#f97316'; ctx.beginPath(); ctx.arc(x * sc, y * sc, 11, 0, 7); ctx.fill();
+      const [x, y] = s[0]; ctx.fillStyle = '#f2960a'; ctx.beginPath(); ctx.arc(x * sc, y * sc, 11, 0, 7); ctx.fill();
       ctx.fillStyle = '#fff'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(i + 1, x * sc, y * sc);
     });
     // user ink
-    ctx.strokeStyle = '#7c3aed'; ctx.lineWidth = 14; user.forEach(s => poly(s)); if (cur) poly(cur);
-    if (demoPos) { ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.arc(demoPos[0] * sc, demoPos[1] * sc, 12, 0, 7); ctx.fill(); }
+    ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 14; user.forEach(s => poly(s)); if (cur) poly(cur);
+    if (demoPos) { ctx.fillStyle = '#ff6b6b'; ctx.beginPath(); ctx.arc(demoPos[0] * sc, demoPos[1] * sc, 12, 0, 7); ctx.fill(); }
   }
   function poly(s) { if (s.length < 2) { if (s.length === 1) { ctx.beginPath(); ctx.arc(s[0][0] * sc, s[0][1] * sc, ctx.lineWidth / 2, 0, 7); ctx.fillStyle = ctx.strokeStyle; ctx.fill(); } return; } ctx.beginPath(); ctx.moveTo(s[0][0] * sc, s[0][1] * sc); for (let i = 1; i < s.length; i++) ctx.lineTo(s[i][0] * sc, s[i][1] * sc); ctx.stroke(); }
   function pos(e) { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * 100, (e.clientY - r.top) / r.height * 100]; }
@@ -535,7 +537,7 @@ function renderShop() {
       <button class="btn small ${owned ? (worn ? 'gray' : 'green') : can ? 'yellow' : 'gray'}" ${!owned && !can ? 'disabled' : ''}>${owned ? (worn ? 'Remove' : 'Wear 穿上') : price}</button></div>`);
     d.querySelector('button').onclick = e => {
       if (!owned) { if (it.gems) p.gems -= it.gems; else p.coins -= it.cost; p.items.push(it.id); SFX.win(); toast(`🛍️ Bought ${it.name}! 买到了`); confetti(40); }
-      if (owned && worn) { if (it.type === 'shirt') p.avatar.shirt = '#3b82f6'; else p.avatar[it.type] = ''; }
+      if (owned && worn) { if (it.type === 'shirt') p.avatar.shirt = '#4c8dff'; else p.avatar[it.type] = ''; }
       else { if (it.type === 'shirt') p.avatar.shirt = it.color; else p.avatar[it.type] = it.id; SFX.pop(); }
       checkBadges(p); save(); renderShop(); void e;
     };
